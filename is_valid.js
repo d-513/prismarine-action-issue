@@ -26,6 +26,6 @@ module.exports = (owner, repo, number) => {
     owner,
     repo,
     issue_number: number,
-    state: "closed",
+    state: "open",
   });
 };
