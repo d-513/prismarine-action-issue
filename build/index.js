@@ -23,7 +23,7 @@ async function app() {
     if (!event.comment.body.includes("p!recheck")) {
       return;
     } else {
-      rechecking(
+      await rechecking(
         event.repository.owner.login,
         event.repository.name,
         event.issue.number
@@ -32,13 +32,13 @@ async function app() {
   }
   const mustInclude = core.getInput("template-include");
   if (event.issue.body.includes(mustInclude)) {
-    isValid(
+    await isValid(
       event.repository.owner.login,
       event.repository.name,
       event.issue.number
     );
   } else {
-    isInValid(
+    await isInValid(
       event.repository.owner.login,
       event.repository.name,
       event.issue.number
@@ -61,8 +61,8 @@ const octokit = new Octokit({
   authStrategy: createActionAuth,
 });
 
-module.exports = (owner, repo, number) => {
-  octokit.issues.createComment({
+module.exports = async (owner, repo, number) => {
+  await octokit.issues.createComment({
     owner,
     repo,
     issue_number: number,
@@ -77,14 +77,14 @@ module.exports = (owner, repo, number) => {
       "*If you belive this is an error, please reopen this issue.*",
     ].join("\n"),
   });
-  octokit.issues.addLabels({
+  await octokit.issues.addLabels({
     owner,
     repo,
     issue_number: number,
     labels: ["invalid"],
   });
 
-  octokit.issues.update({
+  await octokit.issues.update({
     owner,
     repo,
     issue_number: number,
@@ -105,8 +105,8 @@ const octokit = new Octokit({
   authStrategy: createActionAuth,
 });
 
-module.exports = (owner, repo, number) => {
-  octokit.issues.createComment({
+module.exports = async (owner, repo, number) => {
+  await octokit.issues.createComment({
     owner,
     repo,
     issue_number: number,
@@ -115,14 +115,14 @@ module.exports = (owner, repo, number) => {
       "Thank you for filling in the template 🎉",
     ].join("\n"),
   });
-  octokit.issues.addLabels({
+  await octokit.issues.addLabels({
     owner,
     repo,
     issue_number: number,
     labels: ["valid"],
   });
 
-  octokit.issues.update({
+  await octokit.issues.update({
     owner,
     repo,
     issue_number: number,
@@ -8030,8 +8030,8 @@ const octokit = new Octokit({
   authStrategy: createActionAuth,
 });
 
-module.exports = (owner, repo, number) => {
-  octokit.issues.createComment({
+module.exports = async (owner, repo, number) => {
+  await octokit.issues.createComment({
     owner,
     repo,
     issue_number: number,
