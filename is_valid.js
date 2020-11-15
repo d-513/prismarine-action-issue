@@ -29,6 +29,13 @@ module.exports = async (owner, repo, number) => {
     name: "invalid",
   });
 
+  await octokit.reactions.createForIssue({
+    owner,
+    repo,
+    issue_number: number,
+    content: "rocket",
+  });
+
   await octokit.issues.update({
     owner,
     repo,
