@@ -1,5 +1,10 @@
 name: "Prismarine issue"
 description: "Marks issues without the template as invalid."
+inputs:
+  template-include:
+    required: false
+    description: "What string to check for to see if user used a template"
+    default: "--is-template"
 runs:
   using: "node12"
   main: "build/index.js"

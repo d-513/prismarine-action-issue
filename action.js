@@ -1,50 +1,26 @@
 const core = require("@actions/core");
 const fs = require("fs-extra");
-const { createActionAuth } = require("@octokit/auth-action");
-const { Octokit } = require("@octokit/rest");
+const isValid = require("./is_valid");
+const isInValid = require("./is_invalid");
 
 async function app() {
   const event = JSON.parse(
     await fs.readFile(process.env.GITHUB_EVENT_PATH, "utf8")
   );
-  const octokit = new Octokit({
-    authStrategy: createActionAuth,
-  });
-  if (event.issue.body.includes("--is-template")) {
-    octokit.issues.createComment({
-      owner: event.repository.owner.login,
-      repo: event.repository.name,
-      issue_number: event.issue.number,
-      body: [
-        "*I am a bot*.",
-        "Success: The template was filled, issue is valid",
-      ].join("\n"),
-    });
-    octokit.issues.addLabels({
-      owner: event.repository.owner.login,
-      repo: event.repository.name,
-      issue_number: event.issue.number,
-      labels: ["valid"],
-    });
+  const mustInclude = core.getInput("template_include");
+
+  if (event.issue.body.includes(mustInclude)) {
+    isValid(
+      event.repository.owner.login,
+      event.repository.name,
+      event.issue.number
+    );
   } else {
-    octokit.issues.createComment({
-      owner: event.repository.owner.login,
-      repo: event.repository.name,
-      issue_number: event.issue.number,
-      body: [
-        "*I am a bot*.",
-        "",
-        "Invalid issue: Please close the issue, fill up the template and open a new one.",
-        "If you don't provide enough information, the issue may be closed.",
-        "*If you belive this is an error, ignore this message.*",
-      ].join("\n"),
-    });
-    octokit.issues.addLabels({
-      owner: event.repository.owner.login,
-      repo: event.repository.name,
-      issue_number: event.issue.number,
-      labels: ["invalid"],
-    });
+    isInValid(
+      event.repository.owner.login,
+      event.repository.name,
+      event.issue.number
+    );
   }
 }
 
