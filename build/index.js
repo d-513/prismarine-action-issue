@@ -70,7 +70,6 @@ module.exports = async (owner, repo, number) => {
       `*bot* - [prismarine-action-issue](https://github.com/dada513/prismarine-action-issue) - v${pkgJson.version}`,
       "",
       "Error: You did not fill up the issue template.",
-
       "You should be able to choose one when creating your issue. See image below.",
       "If you edited your issue to the correct template, recheck the issue status by commenting `p!recheck`.",
       "![Choosing the template - Example](https://i.imgur.com/z4pqWWZ.png)",
@@ -82,6 +81,13 @@ module.exports = async (owner, repo, number) => {
     repo,
     issue_number: number,
     labels: ["invalid"],
+  });
+
+  await octokit.issues.removeLabel({
+    owner,
+    repo,
+    issue_number: number,
+    name: "valid",
   });
 
   await octokit.issues.update({
@@ -112,7 +118,7 @@ module.exports = async (owner, repo, number) => {
     issue_number: number,
     body: [
       `*bot* - [prismarine-action-issue](https://github.com/dada513/prismarine-action-issue) - v${pkgJson.version}`,
-      "Thank you for filling in the template 🎉",
+      "Success: Template filled in correctly 🎉",
     ].join("\n"),
   });
   await octokit.issues.addLabels({
@@ -120,6 +126,13 @@ module.exports = async (owner, repo, number) => {
     repo,
     issue_number: number,
     labels: ["valid"],
+  });
+
+  await octokit.issues.removeLabel({
+    owner,
+    repo,
+    issue_number: number,
+    name: "invalid",
   });
 
   await octokit.issues.update({
@@ -8037,7 +8050,6 @@ module.exports = async (owner, repo, number) => {
     issue_number: number,
     body: [
       `*bot* - [prismarine-action-issue](https://github.com/dada513/prismarine-action-issue) - v${pkgJson.version}`,
-      "",
       "Rechecking your issue...",
     ].join("\n"),
   });
