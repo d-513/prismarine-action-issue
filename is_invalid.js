@@ -5,8 +5,8 @@ const octokit = new Octokit({
   authStrategy: createActionAuth,
 });
 
-module.exports = (owner, repo, number) => {
-  octokit.issues.createComment({
+module.exports = async (owner, repo, number) => {
+  await octokit.issues.createComment({
     owner,
     repo,
     issue_number: number,
@@ -21,14 +21,14 @@ module.exports = (owner, repo, number) => {
       "*If you belive this is an error, please reopen this issue.*",
     ].join("\n"),
   });
-  octokit.issues.addLabels({
+  await octokit.issues.addLabels({
     owner,
     repo,
     issue_number: number,
     labels: ["invalid"],
   });
 
-  octokit.issues.update({
+  await octokit.issues.update({
     owner,
     repo,
     issue_number: number,

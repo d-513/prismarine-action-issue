@@ -16,7 +16,7 @@ async function app() {
     if (!event.comment.body.includes("p!recheck")) {
       return;
     } else {
-      rechecking(
+      await rechecking(
         event.repository.owner.login,
         event.repository.name,
         event.issue.number
@@ -25,13 +25,13 @@ async function app() {
   }
   const mustInclude = core.getInput("template-include");
   if (event.issue.body.includes(mustInclude)) {
-    isValid(
+    await isValid(
       event.repository.owner.login,
       event.repository.name,
       event.issue.number
     );
   } else {
-    isInValid(
+    await isInValid(
       event.repository.owner.login,
       event.repository.name,
       event.issue.number

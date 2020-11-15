@@ -5,8 +5,8 @@ const octokit = new Octokit({
   authStrategy: createActionAuth,
 });
 
-module.exports = (owner, repo, number) => {
-  octokit.issues.createComment({
+module.exports = async (owner, repo, number) => {
+  await octokit.issues.createComment({
     owner,
     repo,
     issue_number: number,
@@ -15,14 +15,14 @@ module.exports = (owner, repo, number) => {
       "Thank you for filling in the template 🎉",
     ].join("\n"),
   });
-  octokit.issues.addLabels({
+  await octokit.issues.addLabels({
     owner,
     repo,
     issue_number: number,
     labels: ["valid"],
   });
 
-  octokit.issues.update({
+  await octokit.issues.update({
     owner,
     repo,
     issue_number: number,

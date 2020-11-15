@@ -5,8 +5,8 @@ const octokit = new Octokit({
   authStrategy: createActionAuth,
 });
 
-module.exports = (owner, repo, number) => {
-  octokit.issues.createComment({
+module.exports = async (owner, repo, number) => {
+  await octokit.issues.createComment({
     owner,
     repo,
     issue_number: number,
