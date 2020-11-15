@@ -14,6 +14,10 @@ async function app() {
   const event = JSON.parse(
     await fs.readFile(process.env.GITHUB_EVENT_PATH, "utf8")
   );
+
+  if (event.issue.pull_request) return;
+  console.log(event.action);
+
   const mustInclude = core.getInput("template-include");
 
   if (event.issue.body.includes(mustInclude)) {
@@ -57,7 +61,7 @@ module.exports = (owner, repo, number) => {
       "Error: You did not fill up the issue template.",
 
       "You should be able to choose one when creating your issue. See image below.",
-      "If you edited your issue to the correct template, recheck the issue status by using p!recheck.",
+      "If you edited your issue to the correct template, recheck the issue status by commenting `p!recheck`.",
       "![Choosing the template - Example](https://i.imgur.com/z4pqWWZ.png)",
       "*If you belive this is an error, please reopen this issue.*",
     ].join("\n"),
