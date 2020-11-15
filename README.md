@@ -11,6 +11,8 @@ name: Prismarine issue
 on:
   issues:
     types: [opened]
+  issue_comment:
+    types: [created]
 
 jobs:
   test:
