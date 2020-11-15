@@ -14,7 +14,7 @@ async function app() {
   const event = JSON.parse(
     await fs.readFile(process.env.GITHUB_EVENT_PATH, "utf8")
   );
-  const mustInclude = core.getInput("template_include");
+  const mustInclude = core.getInput("template-include");
 
   if (event.issue.body.includes(mustInclude)) {
     isValid(
