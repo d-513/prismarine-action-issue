@@ -2,6 +2,7 @@ const core = require("@actions/core");
 const fs = require("fs-extra");
 const isValid = require("./is_valid");
 const isInValid = require("./is_invalid");
+const rechecking = require("./rechecking");
 
 async function app() {
   const event = JSON.parse(
@@ -9,9 +10,19 @@ async function app() {
   );
 
   if (event.issue.pull_request) return;
-  console.log(event);
 
-  const mustInclude = core.getInput("template-include");
+  if (event.action === "created") {
+    // this means that the event is an issue comment
+    if (!event.comment.body.includes("p!recheck")) {
+      return;
+    } else {
+      rechecking(
+        event.repository.owner.login,
+        event.repository.name,
+        event.issue.number
+      );
+    }
+  }
 
   if (event.issue.body.includes(mustInclude)) {
     isValid(
