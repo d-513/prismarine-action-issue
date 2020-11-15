@@ -9,6 +9,7 @@ const core = __webpack_require__(2186);
 const fs = __webpack_require__(5630);
 const isValid = __webpack_require__(5078);
 const isInValid = __webpack_require__(5874);
+const rechecking = __webpack_require__(6944);
 
 async function app() {
   const event = JSON.parse(
@@ -16,9 +17,19 @@ async function app() {
   );
 
   if (event.issue.pull_request) return;
-  console.log(event);
 
-  const mustInclude = core.getInput("template-include");
+  if (event.action === "created") {
+    // this means that the event is an issue comment
+    if (!event.comment.body.includes("p!recheck")) {
+      return;
+    } else {
+      rechecking(
+        event.repository.owner.login,
+        event.repository.name,
+        event.issue.number
+      );
+    }
+  }
 
   if (event.issue.body.includes(mustInclude)) {
     isValid(
@@ -8005,6 +8016,32 @@ function wrappy (fn, cb) {
     return ret
   }
 }
+
+
+/***/ }),
+
+/***/ 6944:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+const pkgJson = __webpack_require__(306);
+const { createActionAuth } = __webpack_require__(20);
+const { Octokit } = __webpack_require__(5375);
+const octokit = new Octokit({
+  authStrategy: createActionAuth,
+});
+
+module.exports = (owner, repo, number) => {
+  octokit.issues.createComment({
+    owner,
+    repo,
+    issue_number: number,
+    body: [
+      `*bot* - [prismarine-action-issue](https://github.com/dada513/prismarine-action-issue) - v${pkgJson.version}`,
+      "",
+      "Rechecking your issue...",
+    ].join("\n"),
+  });
+};
 
 
 /***/ }),
