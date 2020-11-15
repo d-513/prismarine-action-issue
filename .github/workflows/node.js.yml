@@ -5,11 +5,10 @@ name: Build action with ncc
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -17,13 +16,15 @@ jobs:
         node-version: [12.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: yarn install
-    - run: yarn run build
-    - run: git add .
-    - run: git commit -m Builder
-    - run: git push
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install
+      - run: yarn run build
+      - run: git add .
+      - run: git config --global user.email "octocat@github.com"
+      - run: git config --global user.name "Octocat"
+      - run: git commit -m Builder
+      - run: git push
