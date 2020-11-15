@@ -9,7 +9,7 @@ async function app() {
   );
 
   if (event.issue.pull_request) return;
-  console.log(event.action);
+  console.log(event);
 
   const mustInclude = core.getInput("template-include");
 
