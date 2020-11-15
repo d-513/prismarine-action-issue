@@ -7,6 +7,9 @@
   "author": "dada513",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "build": "ncc build action.js -o build"
+  },
   "devDependencies": {
     "@vercel/ncc": "^0.25.1"
   },
