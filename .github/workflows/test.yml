@@ -13,8 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Self-Test
-        id: selftest
+      - name: Prismarine-Issue
+        id: issues
         uses: ./
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
