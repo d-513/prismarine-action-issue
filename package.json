@@ -1,0 +1,16 @@
+{
+  "name": "prismarine-action-issue",
+  "version": "1.0.0",
+  "description": "Issue github action for prismarine",
+  "main": "action.js",
+  "repository": "https://github.com/dada513/prismarine-action-issue",
+  "author": "dada513",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@vercel/ncc": "^0.25.1"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6"
+  }
+}

@@ -1,0 +1,9 @@
+name: "Prismarine issue"
+description: "Marks issues without the template as invalid."
+inputs:
+  github_token:
+    description: "The GitHub access token for the bot to comment on issue and add label"
+    required: true
+runs:
+  using: "node12"
+  main: "action.js"
