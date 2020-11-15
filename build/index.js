@@ -83,18 +83,18 @@ module.exports = async (owner, repo, number) => {
     labels: ["invalid"],
   });
 
-  await octokit.issues.removeLabel({
-    owner,
-    repo,
-    issue_number: number,
-    name: "valid",
-  });
-
   await octokit.issues.update({
     owner,
     repo,
     issue_number: number,
     state: "closed",
+  });
+
+  await octokit.issues.removeLabel({
+    owner,
+    repo,
+    issue_number: number,
+    name: "valid",
   });
 };
 
@@ -128,18 +128,18 @@ module.exports = async (owner, repo, number) => {
     labels: ["valid"],
   });
 
-  await octokit.issues.removeLabel({
-    owner,
-    repo,
-    issue_number: number,
-    name: "invalid",
-  });
-
   await octokit.issues.update({
     owner,
     repo,
     issue_number: number,
     state: "open",
+  });
+
+  await octokit.issues.removeLabel({
+    owner,
+    repo,
+    issue_number: number,
+    name: "invalid",
   });
 };
 
