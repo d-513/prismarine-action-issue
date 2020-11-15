@@ -30,7 +30,7 @@ async function app() {
       );
     }
   }
-
+  const mustInclude = core.getInput("template-include");
   if (event.issue.body.includes(mustInclude)) {
     isValid(
       event.repository.owner.login,
