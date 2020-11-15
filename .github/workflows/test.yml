@@ -16,3 +16,5 @@ jobs:
       - name: Self-Test
         id: selftest
         uses: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
