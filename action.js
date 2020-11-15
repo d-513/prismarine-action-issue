@@ -24,7 +24,7 @@ async function app() {
     octokit.issues.createComment({
       owner: event.repository.owner.login,
       repo: event.repository.name,
-      issue_number: event.number,
+      issue_number: event.issue.number,
       body: [
         "*I am a bot*.",
         "Invalid issue: Please fill up the template.",
