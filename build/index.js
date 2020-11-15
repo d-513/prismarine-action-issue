@@ -17,7 +17,7 @@ async function app() {
   const octokit = new Octokit({
     authStrategy: createActionAuth,
   });
-  if (event.body.includes("--is-template")) {
+  if (event.issue.body.includes("--is-template")) {
     octokit.issues.createComment({
       owner: event.repository.owner.login,
       repo: event.repository.name,
