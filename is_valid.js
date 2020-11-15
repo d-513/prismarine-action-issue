@@ -12,7 +12,7 @@ module.exports = async (owner, repo, number) => {
     issue_number: number,
     body: [
       `*bot* - [prismarine-action-issue](https://github.com/dada513/prismarine-action-issue) - v${pkgJson.version}`,
-      "Thank you for filling in the template 🎉",
+      "Success: Template filled in correctly 🎉",
     ].join("\n"),
   });
   await octokit.issues.addLabels({
@@ -20,6 +20,13 @@ module.exports = async (owner, repo, number) => {
     repo,
     issue_number: number,
     labels: ["valid"],
+  });
+
+  await octokit.issues.removeLabel({
+    owner,
+    repo,
+    issue_number: number,
+    name: "invalid",
   });
 
   await octokit.issues.update({
